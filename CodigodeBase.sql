@@ -1,6 +1,7 @@
 
 -- Project: BD El taatio
 -- Author: Jorge Cordova Villamil
+-- Update: 28/08/2020
 
 CREATE DATABASE ELTAPATIO;
 USE ELTAPATIO;
