@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `Proveedor` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `Clientes` (
-  `idClientes` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `Cliente` (
+  `idCliente` INT NOT NULL,
   `Nombre` VARCHAR(30) NOT NULL,
   `Apellido` VARCHAR(30) NOT NULL,
   `CantCompras` INT NULL DEFAULT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `Clientes` (
   `CorreoE` VARCHAR(40) NULL DEFAULT NULL,
   `Telefono` INT NULL DEFAULT NULL,
   `Status` TINYINT NOT NULL,
-  PRIMARY KEY (`idClientes`))
+  PRIMARY KEY (`idCliente`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
@@ -47,13 +47,13 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 
-CREATE TABLE IF NOT EXISTS `Productos` (
-  `idProductos` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `Producto` (
+  `idProducto` INT NOT NULL,
   `Nombre` VARCHAR(20) NOT NULL,
   `Descripcion` TEXT(200) NOT NULL,
   `Categoria` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`idProductos`),
-  CONSTRAINT `FK_productosCategorias`
+  PRIMARY KEY (`idProducto`),
+  CONSTRAINT `FK_productoCategoria`
     FOREIGN KEY (`Categoria`)
     REFERENCES `Categoria` (`idCategoria`)
     ON DELETE NO ACTION
@@ -63,14 +63,14 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 
 
-CREATE TABLE IF NOT EXISTS `UbicacionAnaqueles` (
-  `idUbicacionAnaqueles` VARCHAR(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `UbicacionEnAnaquel` (
+  `idUbicacionAnaquel` VARCHAR(10) NOT NULL,
   `Anaquel` VARCHAR(3) NOT NULL,
   `Seccion` VARCHAR(3) NOT NULL,
   `Fila` INT NOT NULL,
   `Sucursal` INT NOT NULL,
-  PRIMARY KEY (`idUbicacionAnaqueles`),
-  CONSTRAINT `fk_UbicacionAnaqueles_Sucursal`
+  PRIMARY KEY (`idUbicacionAnaquel`),
+  CONSTRAINT `fk_UbicacionAnaquel_Sucursal`
     FOREIGN KEY (`Sucursal`)
     REFERENCES `Sucursal` (`idSucursal`)
     ON DELETE NO ACTION
@@ -79,52 +79,52 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `Compras` (
-  `idCompras` INT NOT NULL,
-  `Proovedor` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `Compra` (
+  `idCompra` INT NOT NULL,
+  `Proveedor` INT NOT NULL,
   `Fecha` DATETIME NULL DEFAULT NULL,
   `Monto` FLOAT NULL DEFAULT NULL,
   `Status` TINYINT NULL DEFAULT NULL,
-  PRIMARY KEY (`idCompras`),
-  CONSTRAINT `FK_ComprasProveedor`
-    FOREIGN KEY (`Proovedor`)
+  PRIMARY KEY (`idCompra`),
+  CONSTRAINT `FK_CompraProveedor`
+    FOREIGN KEY (`Proveedor`)
     REFERENCES `Proveedor` (`idProveedor`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `Ventas` (
-  `idVentas` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `Venta` (
+  `idVenta` INT NOT NULL,
   `Cliente` INT NOT NULL,
   `Monto` FLOAT NOT NULL,
   `Credito` TINYINT NOT NULL DEFAULT 0,
   `Fecha` DATETIME NOT NULL,
   `Sucursal` INT NOT NULL,
-  PRIMARY KEY (`idVentas`),
-  CONSTRAINT `FK_VentasClientes`
+  PRIMARY KEY (`idVenta`),
+  CONSTRAINT `FK_VentaCliente`
     FOREIGN KEY (`Cliente`)
-    REFERENCES `Clientes` (`idClientes`)
+    REFERENCES `Cliente` (`idCliente`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `VentaProductos` (
+CREATE TABLE IF NOT EXISTS `VentaProducto` (
   `idVenta` INT NOT NULL,
-  `idProductos` INT NOT NULL,
+  `idProducto` INT NOT NULL,
   `Cantidad` FLOAT NOT NULL,
   `Status` TINYINT NOT NULL DEFAULT 0,
   `PrecioVenta` FLOAT NOT NULL,
   PRIMARY KEY (`idVenta`),
-  CONSTRAINT `FK_productos(VP)`
-    FOREIGN KEY (`idProductos`)
-    REFERENCES `Productos` (`idProductos`)
+  CONSTRAINT `FK_VentaProducto_Producto`
+    FOREIGN KEY (`idProducto`)
+    REFERENCES `Producto` (`idProducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `FK_ventas`
+  CONSTRAINT `FK_VentaProducto_Venta`
     FOREIGN KEY (`idVenta`)
-    REFERENCES `Ventas` (`idVentas`)
+    REFERENCES `Venta` (`idVenta`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -137,14 +137,14 @@ CREATE TABLE IF NOT EXISTS `Inventario` (
   `Stock` FLOAT NOT NULL,
   `Precio` FLOAT NOT NULL,
   PRIMARY KEY (`idInventario`),
-  CONSTRAINT `FK_Producto(I)`
+  CONSTRAINT `FK_ProductoInventario`
     FOREIGN KEY (`IdProducto`)
-    REFERENCES `Productos` (`idProductos`)
+    REFERENCES `Producto` (`idProducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `FK_Ubicacion`
+  CONSTRAINT `FK_InventarioUbicacion`
     FOREIGN KEY (`idUbicacion`)
-    REFERENCES `UbicacionAnaqueles` (`idUbicacionAnaqueles`)
+    REFERENCES `UbicacionEnAnaquel` (`idUbicacionAnaquel`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `ActualizacionPrecio` (
   `PrecioAnterior` FLOAT NOT NULL,
   `Precionuevo` VARCHAR(45) NOT NULL,
   `FechaModificacion` DATETIME NOT NULL,
-  CONSTRAINT `FK_Inventario`
+  CONSTRAINT `FK_ActualizacionPrecioInventario`
     FOREIGN KEY (`idInventario`)
     REFERENCES `Inventario` (`idInventario`)
     ON DELETE NO ACTION
@@ -170,14 +170,14 @@ CREATE TABLE IF NOT EXISTS `CompraProducto` (
   `Status` TINYINT NOT NULL DEFAULT 0,
   `PrecioCompra` FLOAT NOT NULL,
   PRIMARY KEY (`idCompra`, `idProducto`),
-  CONSTRAINT `FK_Compra`
+  CONSTRAINT `FK_CompraProducto_Compra`
     FOREIGN KEY (`idCompra`)
-    REFERENCES `Compras` (`idCompras`)
+    REFERENCES `Compra` (`idCompra`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `FK_Producto`
+  CONSTRAINT `FK_CompraProducto_Producto`
     FOREIGN KEY (`idProducto`)
-    REFERENCES `Productos` (`idProductos`)
+    REFERENCES `Producto` (`idProducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -196,12 +196,12 @@ CREATE TABLE IF NOT EXISTS `EmpleadoSucursal` (
   `idEmpleado` INT NOT NULL,
   `idSucursal` INT NOT NULL,
   PRIMARY KEY (`idEmpleado`, `idSucursal`),
-  CONSTRAINT `FK_Empleado`
+  CONSTRAINT `FK_EmpleadoSucursal_Empleado`
     FOREIGN KEY (`idEmpleado`)
     REFERENCES `Empleado` (`idEmpleado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `FK_Sucursal`
+  CONSTRAINT `FK_EmpleadoSucursal_Sucursal`
     FOREIGN KEY (`idSucursal`)
     REFERENCES `Sucursal` (`idSucursal`)
     ON DELETE NO ACTION
