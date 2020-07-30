@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS `Sucursal` (
   `idSucursal` INT NOT NULL,
   `Ciudad` VARCHAR(10) NULL DEFAULT NULL,
   `Direccion` VARCHAR(45) NULL DEFAULT NULL,
-  `Encargado` INT NULL DEFAULT NULL,
   PRIMARY KEY (`idSucursal`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -105,6 +104,11 @@ CREATE TABLE IF NOT EXISTS `Venta` (
   CONSTRAINT `FK_VentaCliente`
     FOREIGN KEY (`Cliente`)
     REFERENCES `Cliente` (`idCliente`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_VentaSucursal`
+    FOREIGN KEY (`Sucursal`)
+    REFERENCES `Sucursal` (`idSucursal`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

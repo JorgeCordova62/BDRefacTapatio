@@ -8,33 +8,33 @@
 
 ### Detalles de las tablas
 
-| Ventas   |          |      |      |         |            |
-| -------- | -------- | ---- | ---- | ------- | ---------- |
-| Field    | Type     | Null | Key  | Default | References |
-| idVentas | int      | NO   | PRI  | NULL    |            |
-| Cliente  | int      | NO   | MUL  | NULL    |            |
-| Monto    | float    | NO   |      | NULL    |            |
-| Credito  | tinyint  | NO   |      | 0       |            |
-| Fecha    | datetime | NO   |      | NULL    |            |
-| Sucursal | int      | NO   |      | NULL    |            |
+| Venta    |          |      |      |         |                      |
+| -------- | -------- | ---- | ---- | ------- | -------------------- |
+| Field    | Type     | Null | Key  | Default | References           |
+| idVenta  | int      | NO   | PRI  | NULL    |                      |
+| Cliente  | int      | NO   | MUL  | NULL    | Cliente(idCliente)   |
+| Monto    | float    | NO   |      | NULL    |                      |
+| Credito  | tinyint  | NO   |      | 0       |                      |
+| Fecha    | datetime | NO   |      | NULL    |                      |
+| Sucursal | int      | NO   | MUL  | NULL    | Sucursal(idSucursal) |
 
-| VentasProductos |         |      |      |         |                        |
-| --------------- | ------- | ---- | ---- | ------- | ---------------------- |
-| Field           | Type    | Null | Key  | Default | References             |
-| idVenta         | int     | NO   | PRI  | NULL    | Ventas(idVentas)       |
-| idProductos     | int     | NO   | MUL  | NULL    | Productos(idProductos) |
-| Cantidad        | float   | NO   |      | NULL    |                        |
-| Status          | tinyint | NO   |      | 0       |                        |
-| PrecioVenta     | float   | NO   |      | NULL    |                        |
+| VentaProducto |         |      |      |         |                      |
+| ------------- | ------- | ---- | ---- | ------- | -------------------- |
+| Field         | Type    | Null | Key  | Default | References           |
+| idVenta       | int     | NO   | PRI  | NULL    | Venta(idVenta)       |
+| idProducto    | int     | NO   | MUL  | NULL    | Producto(idProducto) |
+| Cantidad      | float   | NO   |      | NULL    |                      |
+| Status        | tinyint | NO   |      | 0       |                      |
+| PrecioVenta   | float   | NO   |      | NULL    |                      |
 
-| UbicacionAnaqueles   |             |      |      |         |            |
-| -------------------- | ----------- | ---- | ---- | ------- | ---------- |
-| Field                | Type        | Null | Key  | Default | References |
-| idUbicacionAnaqueles | varchar(10) | NO   | PRI  | NULL    |            |
-| Anaquel              | varchar(3)  | NO   |      | NULL    |            |
-| Seccion              | varchar(3)  | NO   |      | NULL    |            |
-| Fila                 | int         | NO   |      | NULL    |            |
-| Sucursal             | int         | NO   | MUL  | NULL    |            |
+| UbicacionEnAnaquel  |             |      |      |         |                      |
+| ------------------- | ----------- | ---- | ---- | ------- | -------------------- |
+| Field               | Type        | Null | Key  | Default | References           |
+| idUbicacionAnaquele | varchar(10) | NO   | PRI  | NULL    |                      |
+| Anaquel             | varchar(3)  | NO   |      | NULL    |                      |
+| Seccion             | varchar(3)  | NO   |      | NULL    |                      |
+| Fila                | int         | NO   |      | NULL    |                      |
+| Sucursal            | int         | NO   | MUL  | NULL    | Sucursal(idSucursal) |
 
 | Sucursal   |             |      |      |         |            |
 | ---------- | ----------- | ---- | ---- | ------- | ---------- |
@@ -42,7 +42,6 @@
 | idSucursal | int         | NO   | PRI  | NULL    |            |
 | Ciudad     | varchar(10) | YES  |      | NULL    |            |
 | Direccion  | varchar(45) | YES  |      | NULL    |            |
-| Encargado  | int         | YES  |      | NULL    |            |
 
 | Proveedor   |             |      |      |         |            |
 | ----------- | ----------- | ---- | ---- | ------- | ---------- |
@@ -54,22 +53,22 @@
 | Telefono    | int         | NO   |      | NULL    |            |
 | Status      | tinyint     | NO   |      | NULL    |            |
 
-| Productos   |             |      |      |         |            |
-| ----------- | ----------- | ---- | ---- | ------- | ---------- |
-| Field       | Type        | Null | Key  | Default | References |
-| idProductos | int         | NO   | PRI  | NULL    |            |
-| Nombre      | varchar(20) | NO   |      | NULL    |            |
-| Descripcion | text        | NO   |      | NULL    |            |
-| Categoria   | varchar(10) | NO   | MUL  | NULL    |            |
+| Producto    |             |      |      |         |                        |
+| ----------- | ----------- | ---- | ---- | ------- | ---------------------- |
+| Field       | Type        | Null | Key  | Default | References             |
+| idProducto  | int         | NO   | PRI  | NULL    |                        |
+| Nombre      | varchar(20) | NO   |      | NULL    |                        |
+| Descripcion | text        | NO   |      | NULL    |                        |
+| Categoria   | varchar(10) | NO   | MUL  | NULL    | Categoria(idCategoria) |
 
-| inventario   |             |      |      |         |                                          |
-| ------------ | ----------- | ---- | ---- | ------- | ---------------------------------------- |
-| Field        | Type        | Null | Key  | Default | References                               |
-| idInventario | int         | NO   | PRI  | NULL    |                                          |
-| idProducto   | int         | NO   | MUL  | NULL    | Productos(idProductos)                   |
-| idUbicacion  | varchar(10) | NO   | MUL  | NULL    | UbicacionAnaqueles(idUbicacionAnaqueles) |
-| Stock        | float       | NO   |      | NULL    |                                          |
-| Precio       | float       | NO   |      | NULL    |                                          |
+| inventario   |             |      |      |         |                                        |
+| ------------ | ----------- | ---- | ---- | ------- | -------------------------------------- |
+| Field        | Type        | Null | Key  | Default | References                             |
+| idInventario | int         | NO   | PRI  | NULL    |                                        |
+| idProducto   | int         | NO   | MUL  | NULL    | Producto(idProductos)                  |
+| idUbicacion  | varchar(10) | NO   | MUL  | NULL    | UbicacionEnAnaquel(idUbicacionAnaquel) |
+| Stock        | float       | NO   |      | NULL    |                                        |
+| Precio       | float       | NO   |      | NULL    |                                        |
 
 | EmpleadoSucursal |      |      |      |         |                      |
 | ---------------- | ---- | ---- | ---- | ------- | -------------------- |
@@ -85,28 +84,28 @@
 | Sueldo     | float       | NO   |      | NULL    |            |
 | Status     | tinyint     | NO   |      | 0       |            |
 
-| Compras   |          |      |      |         |                        |
+| Compra    |          |      |      |         |                        |
 | --------- | -------- | ---- | ---- | ------- | ---------------------- |
 | Field     | Type     | Null | Key  | Default | References             |
-| idCompras | int      | NO   | PRI  | NULL    |                        |
-| Provedor  | int      | NO   | MUL  | NULL    | Proveedor(idProveedor) |
+| idCompra  | int      | NO   | PRI  | NULL    |                        |
+| Proveedor | int      | NO   | MUL  | NULL    | Proveedor(idProveedor) |
 | Fecha     | datetime | YES  |      | NULL    |                        |
 | Monto     | float    | YES  |      | NULL    |                        |
 | Status    | tinyint  | YES  |      | NULL    |                        |
 
-| ComprasProductos |         |      |      |         |                        |
-| ---------------- | ------- | ---- | ---- | ------- | ---------------------- |
-| Field            | Type    | Null | Key  | Default | References             |
-| idCompra         | int     | NO   | PRI  | NULL    | Compras(idCompras)     |
-| idProducto       | int     | NO   | PRI  | NULL    | Productos(idProductos) |
-| CantCompra       | int     | NO   |      | NULL    |                        |
-| Status           | tinyint | NO   |      | 0       |                        |
-| PrecioCompra     | float   | NO   |      | NULL    |                        |
+| CompraProducto |         |      |      |         |                      |
+| -------------- | ------- | ---- | ---- | ------- | -------------------- |
+| Field          | Type    | Null | Key  | Default | References           |
+| idCompra       | int     | NO   | PRI  | NULL    | Compra(idCompra)     |
+| idProducto     | int     | NO   | PRI  | NULL    | Producto(idProducto) |
+| CantCompra     | int     | NO   |      | NULL    |                      |
+| Status         | tinyint | NO   |      | 0       |                      |
+| PrecioCompra   | float   | NO   |      | NULL    |                      |
 
 | Clientes    |             |      |      |         |            |
 | ----------- | ----------- | ---- | ---- | ------- | ---------- |
 | Field       | Type        | Null | Key  | Default | References |
-| idClientes  | int         | NO   | PRI  | NULL    |            |
+| idCliente   | int         | NO   | PRI  | NULL    |            |
 | Nombre      | varchar(30) | NO   |      | NULL    |            |
 | Apellido    | varchar(30) | NO   |      | NULL    |            |
 | CantCompras | int         | YES  |      | NULL    |            |

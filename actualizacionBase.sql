@@ -18,6 +18,9 @@ ALTER TABLE VentaProductos RENAME VentaProducto;
 
 ALTER TABLE Compra RENAME COLUMN Proovedor TO Proveedor;
 
+
+alter table Sucursal drop column Encargado;
+
 ALTER TABLE `ActualizacionPrecio` 
 DROP FOREIGN KEY `FK_Inventario`;
 
@@ -167,3 +170,13 @@ ADD CONSTRAINT `FK_VentaProducto_Producto`
   REFERENCES `Producto` (`idProducto`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+  
+  
+#--------------
+ALTER TABLE `Venta` 
+ADD CONSTRAINT `FK_VentaSucursal`
+  FOREIGN KEY (`Sucursal`)
+  REFERENCES `Sucursal` (`idSucursal`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+  
