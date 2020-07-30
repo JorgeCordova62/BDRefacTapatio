@@ -2,7 +2,9 @@
 
 ### Diagrama UML
 
-![BD El tapatío](/Users/jorge/Dropbox/GitHub/BDRefacTapatio/UMLBDTapatio.png)
+![UMLBDTapatio.png](https://github.com/JorgeCordova62/BDRefacTapatio/blob/develop/UMLBDTapatio.png?raw=true)
+
+
 
 ### Detalles de las tablas
 
