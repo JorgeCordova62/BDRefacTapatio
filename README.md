@@ -1,3 +1,9 @@
+
+
+### Diagrama UML
+
+![BD El tapatío](/Users/jorge/Dropbox/GitHub/BDRefacTapatio/UMLBDTapatio.png)
+
 ### Detalles de las tablas
 
 | Ventas   |          |      |      |         |            |
