@@ -39,22 +39,23 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Categoria` (
-  `idCategoria` VARCHAR(10) NOT NULL,
-  `SubCategoria` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`idCategoria`, `Subcategoria`))
+`SubSubCategoria` VARCHAR(15) NOT NULL,
+  `idCategoria` VARCHAR(15) NOT NULL,
+  `SubCategoria` VARCHAR(15) NOT NULL,
+  PRIMARY KEY (`SubSubCategoria`,`idCategoria`, `Subcategoria`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 
 CREATE TABLE IF NOT EXISTS `Producto` (
-  `idProducto` INT NOT NULL,
-  `Nombre` VARCHAR(20) NOT NULL,
-  `Descripcion` TEXT(200) NOT NULL,
-  `Categoria` VARCHAR(10) NOT NULL,
+  `idProducto` VARCHAR(15) NOT NULL,
+  `Nombre` TEXT NOT NULL,
+  `Marca` TEXT NOT NULL,
+  `Categoria` VARCHAR(15) NOT NULL,
   PRIMARY KEY (`idProducto`),
   CONSTRAINT `FK_productoCategoria`
     FOREIGN KEY (`Categoria`)
-    REFERENCES `Categoria` (`idCategoria`)
+    REFERENCES `Categoria` (`SubSubCategoria`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -116,7 +117,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `VentaProducto` (
   `idVenta` INT NOT NULL,
-  `idProducto` INT NOT NULL,
+  `idProducto` VARCHAR(15) NOT NULL,
   `Cantidad` FLOAT NOT NULL,
   `Status` TINYINT NOT NULL DEFAULT 0,
   `PrecioVenta` FLOAT NOT NULL,
@@ -136,7 +137,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Inventario` (
   `idInventario` INT NOT NULL,
-  `idProducto` INT NOT NULL,
+  `idProducto` VARCHAR(15) NOT NULL,
   `idUbicacion` VARCHAR(10) NOT NULL,
   `Stock` FLOAT NOT NULL,
   `Precio` FLOAT NOT NULL,
@@ -169,7 +170,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `CompraProducto` (
   `idCompra` INT NOT NULL,
-  `idProducto` INT NOT NULL,
+  `idProducto` VARCHAR(15) NOT NULL,
   `CantCompra` INT NOT NULL,
   `Status` TINYINT NOT NULL DEFAULT 0,
   `PrecioCompra` FLOAT NOT NULL,

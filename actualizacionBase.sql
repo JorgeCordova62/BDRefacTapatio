@@ -180,3 +180,23 @@ ADD CONSTRAINT `FK_VentaSucursal`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
   
+  
+  
+  #--------------
+  alter table Producto add column Marca text;
+  alter table Producto drop column Descripcion;
+  ALTER TABLE Producto MODIFY Nombre text not null;
+  #SE ACTUALIZA LLAVE PRIMARIA IDPRODUCTO A VARCHAR(15)
+  #SE ACTUALIZA LLAVE PRIMARIA IDCATEGORIA A VARCHAR(15)
+  #SE ACTUALIZA LLAVE PRIMARIA IDSUB CATEGORIAA VARCHAR(15)
+  #Se agrega una nueva columna subcategoria
+  
+  #Se agregaron 7 categorias en Categoria
+  #Se agregaron 52 productos 
+  
+  
+  SELECT idCategoria,SubCategoria,SubSubCategoria FROM Categoria ORDER BY SubCategoria ;
+  
+  Select * from Producto
+  
+  
